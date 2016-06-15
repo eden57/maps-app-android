@@ -85,7 +85,7 @@ import com.esri.arcgisruntime.geometry.Point;
 import com.esri.arcgisruntime.geometry.SpatialReference;
 import com.esri.arcgisruntime.loadable.LoadStatus;
 import com.esri.arcgisruntime.mapping.Basemap;
-import com.esri.arcgisruntime.mapping.Map;
+import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Viewpoint;
 import com.esri.arcgisruntime.mapping.view.DefaultMapViewOnTouchListener;
 import com.esri.arcgisruntime.mapping.view.Graphic;
@@ -196,7 +196,7 @@ public class MapFragment extends Fragment implements BasemapsDialogListener,
 	private GeocodeParameters mGeocodeParams;
 	private ReverseGeocodeParameters mReverseGeocodeParams;
 	private RouteTask mRouteTask;
-	private Map mMap;
+	private ArcGISMap mMap;
 	private Basemap mBasemap;
 	private boolean suggestionClickFlag;
 	private GeocodeResult mGeocodedLocation;
@@ -254,7 +254,7 @@ public class MapFragment extends Fragment implements BasemapsDialogListener,
 			} else {
 				String defaultBaseMapURL = getString(R.string.default_basemap_url);
 				mBasemap = new Basemap(defaultBaseMapURL);
-				mMap = new Map(mBasemap);
+				mMap = new ArcGISMap(mBasemap);
 
         MapFragment.mMapView = (MapView) mMapContainer.findViewById(R.id.map);
 
@@ -289,7 +289,7 @@ public class MapFragment extends Fragment implements BasemapsDialogListener,
 			public void onClick(View v) {
 				mLocationDisplay = mapView.getLocationDisplay();
 				// Pan to location
-				mLocationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.DEFAULT);
+				mLocationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.OFF);
 
 
 				final String currentMode = mLocationDisplay.getAutoPanMode().name();
@@ -298,7 +298,7 @@ public class MapFragment extends Fragment implements BasemapsDialogListener,
 					fab.setImageResource(R.drawable.ic_action_compass_mode);
 					mCompass.start();
 					mCompass.setVisibility(View.VISIBLE);
-					mLocationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.COMPASS);
+					mLocationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.COMPASS_NAVIGATION);
 					mIsInCompassMode = true;
 
 				} else {
@@ -411,7 +411,7 @@ public class MapFragment extends Fragment implements BasemapsDialogListener,
 
 				// load a WebMap instance from the portal item
 				PortalItem portalItem = new PortalItem(portal, portalItemId);
-				final Map webmap = new Map(portalItem);
+				final ArcGISMap webmap = new ArcGISMap(portalItem);
 
 				// load the WebMap that represents the basemap if one was
 				// specified
@@ -475,7 +475,7 @@ public class MapFragment extends Fragment implements BasemapsDialogListener,
 		// Show current location
 		mLocationDisplay = mapView.getLocationDisplay();
 		mLocationDisplay.startAsync();
-		mLocationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.DEFAULT);
+		mLocationDisplay.setAutoPanMode(LocationDisplay.AutoPanMode.OFF);
 		mLocationDisplay.setInitialZoomScale(50000);
 
 		// Handle any location changes
@@ -1305,7 +1305,7 @@ public class MapFragment extends Fragment implements BasemapsDialogListener,
 		String routeTaskURL = getString(R.string.routingservice_url);
 		mRouteTask = new RouteTask(routeTaskURL);
 		mEndLocationName = destinationName;
-		Log.i(TAG, mRouteTask.getUrl());
+		Log.i(TAG, mRouteTask.getUri());
 		Point endPoint = null;
 
 		try {

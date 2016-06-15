@@ -2,6 +2,8 @@
 <resources>
 
     <!-- TODO: add your OAuth Client ID here-->
-    <string name="client_id"></string>
-
+    <string name="client_id">STV3sRWfJQxqvspH</string>
+    <string name="testPartialName">vo</string>
+    <string name="username">sandie_runtime</string>
+    <string name="password">mwbd5029</string>
 </resources>
